@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ramdom Seat Generator</title>
+    
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+<!--
+    <link href="css/bootstrap-4.3.1.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../host/material-components-web.min.css">
+    <link rel="stylesheet" href="../../host/icon.css">
+-->
+    
+<!--    <link rel="stylesheet" href="style.css">-->
+    <style>
+        @charset "utf-8";
+/* CSS Document */
+ /* grid - custom 'bootstrap' 
+    Dùng một grid tự tạo gồm 4 + 3 x 5 = 19 cột
+    100 / 19 = 5.263
+    mỗi gap là 1 cột
+    mỗi bàn là 3 cột -> 1 ghế chiếm 1.5 cộts
+*/
+
+body {
+    min-width: 436px;
+}
+
+.custom-col-3 {
+/*    15.7894736842*/
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    -ms-flex: 0 0 15.78947%;
+    flex: 0 0 15.78947%;
+    max-width: 15.78947%;
+}
+.custom-offset-1 {
+/*    5.2631*/
+    margin-left: 5.2631%;
+}
+/*****************/
+
+.desk {
+    height: 100px;
+}
+
+.desk > div {
+    height: inherit;
+/*    width: inherit;*/
+}
+.desk > div > button {
+    width: 50%;
+}
+
+
+
+.desk button {
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    min-width: 0;
+}
+
+.desk button[disabled] {
+    color: black;
+}
+
+div.container-fluid > div.row {
+    margin: 40px 0;
+}
+
+#teacher-table {
+/*
+    position: fixed;
+    left: 100px;
+    bottom: 0;
+    width: 300px;
+*/
+    margin-top: 70px;
+    height: 80px;
+    background: #00D3FF;
+    text-align: center;
+    font-size: 30px;
+    padding: 20px;
+    border: thin solid #1e1e1e;
+    box-sizing: border-box;
+}
+
+#white-board {
+/*
+    position: fixed;
+    bottom: 0;
+    left: 40%;
+    width: 500px;
+*/
+    margin-top: 110px;
+    box-sizing: border-box;
+    border: medium solid #1e1e1e;
+    background: #DEFF7A;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+
+#door {
+    padding: 20px 0;
+    text-align: center;
+    font-size: 30px;
+/*    width: 100px;*/
+    height: 150px;
+    box-sizing: border-box;
+    border: medium solid #1e1e1e;
+    background: #C58700;
+/*    position: fixed;*/
+/*    right: 0px;*/
+/*    bottom: 0px;*/
+}
+
+.controller {
+    margin-top: 70px;
+}
+
+.controller > button {
+    height: 150px;
+    font-size: 2em;
+}
+
+@media only screen and (max-width: 768px) {
+    #teacher-table {
+        font-size: 20px;
+    }
+    #door {
+        font-size: 16px;
+    }
+    .desk {
+        height: 50px;
+    }
+    .desk button {
+        font-size: 0.5em;
+    }
+    .controller > button {
+        height: 50px;
+        font-size: 0.8em;
+    }
+}
+/*xs*/
+@media only screen and (max-width: 576px) {
+    #teacher-table {
+        font-size: 12px;
+    }
+    .controller > button {
+        height: 50px;
+        font-size: 0.6em;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="desk custom-col-3"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised" disabled><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button> <button class="mdc-button h-100 mdc-button--raised" disabled><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"> <button class="mdc-button h-100 mdc-button--raised" disabled><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button> <button class="mdc-button h-100 mdc-button--raised" disabled><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="desk custom-col-3"><div class="row thinh_khanhlinh"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row huonggiang_quynhanh"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button> <button class="mdc-button h-100 mdc-button--raised" disabled><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="desk custom-col-3"><div class="row hoangviet_quoctuan"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row tramy_minhchau"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row vianh_huongvy"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="desk custom-col-3"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row anhtu_thaihoang"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="desk custom-col-3"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+            <div class="desk custom-col-3 custom-offset-1"><div class="row"><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button><button class="mdc-button h-100 mdc-button--raised"><div class="mdc-button__ripple"></div><span class="mdc-button__label"></span></button></div></div>
+        </div>
+        
+        
+    </div>
+
+    <div class="row">
+        <div id="teacher-table" class="col-lg-3 col-4 offset-lg-1"><b>Bàn giáo viên</b></div>
+        <div id="white-board" class="col-5 offset-1"><b>Bảng</b></div>
+        <div id="door" class="col-1 offset-1"><b>Cửa lớp</b></div>
+    </div>
+    <div class="row justify-content-center controller">
+        <button class="col-3 mdc-button--outlined mdc-button" onClick="revealAll()"><div class="mdc-button__ripple"></div><span class="mdc-button__label">lật hết</span></button>
+    </div>
+    
+    <!-- Other -->
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    
+<!--
+    <script src="../../host/jquery.min.js"></script>
+    <script src="../../host/bootstrap.min.js"></script>
+    <script src="../../host/material-web-components.js"></script>
+-->
+    
+    <script>
+        import {MDCRipple} from '@material/ripple';
+        const buttonRipple = new MDCRipple(document.querySelector('.mdc-button'));
+    </script>
+<!--    <script src="script.js" language="javascript"></script>-->
+    <script>
+        function shuffle(arra1) {
+    var i = arra1.length;
+    var temp;
+    var index;
+    while (i > 0) {
+        index = Math.floor(Math.random() * i);
+        i--;
+        temp = arra1[i];
+        arra1[i] = arra1[index];
+        arra1[index] = temp;
+    }
+    return arra1;
+}
+
+function revealAll(){
+    $(".desk button:not([disabled])").trigger("click");
+}
+
+function moveSeat(){
+    
+    /*
+    dùng JQuery để Target được button:
+        "họ hàng" với Quốc Anh (dùng child, parent các thứ)
+        "Thuý Quỳnh"
+    rồi đảo nội dụng 2 button này (just by innerHTML)
+    */
+    //chuyển chỗ Thuý Quỳnh ra cạnh Quốc Anh
+//    var thangNay = $("button:contains(Quốc Anh)");
+//    var coGai = $("button:contains(Thuý Quỳnh)")[0];
+//    var thangBenCanh;
+//    //nhớ hanlde trường hợp Quốc Anh ngồi vô bàn lẻ
+//    if (thangNay.parent().children()[0] == thangNay[0]) {
+//        //Quốc Anh bên trái
+//        thangBenCanh = thangNay.parent().children()[1];//bên phải
+//    } else {
+//        //Quốc Anh bên phải
+//        thangBenCanh = thangNay.parent().children()[0];
+//    }
+//    
+//    //đổi chỗ 2 đứa
+//    var contentTemp = thangBenCanh.innerHTML;
+//    thangBenCanh.innerHTML = coGai.innerHTML;
+//    coGai.innerHTML = contentTemp;
+}
+
+var isHacked = false;
+var map = [
+    'Diệu Anh',
+    'Hoàng Anh',
+    'Tuấn Bò',
+    'Quốc Anh',
+    'Quỳnh Anh',
+    'Vi Anh',
+    'N.Minh Châu',
+    'T.Minh Châu',
+    'Mai Chi',
+    'Minh Đức',
+    'Hương Giang',
+    'Ngân Hà',
+    'Hoàng Hạnh',
+    'Thái Hoàng',
+    'Xuân Hoàng',
+    'Quang Hợp',
+    'Văn Hùng',
+    'Quang Huy',
+    'Thu Hương',
+    'Nguyên Khôi',
+    'Trần Kiên',
+    'Ái Linh',
+    'Khánh Linh',           
+    'Mai Ly',
+    'Hải Minh',
+    'Thu Minh',
+    'Hà My',
+    'Trà My',
+    'Minh Ngọc',
+    'Phương Ngọc',
+    'L.Hà Phương',
+    'H Hà Phương',
+    'Trần Quang',
+    'Diễm Quỳnh',
+    'Thuý Quỳnh',
+    'Phương Thảo',
+    'Thịnh Trần',
+    'Minh Thư',
+    'Anh Tú',
+    'Mạnh Tuấn',
+    'Quốc Tuấn',
+    'Hồ Uyên',
+    'Hoàng Việt',
+    'Hà Vy',
+    'Hường Vy'
+];
+
+
+shuffle(map);
+// now myArray works as Stack with pop()
+
+
+$(document).ready(function(){
+    $("#teacher-table").on("click", function(){
+        isHacked = true;
+        
+        console.log("evil mode enabled");
+        
+        //remove from list
+        var hacklist = [
+            'Thịnh Trần', 'Khánh Linh',
+            'Hoàng Việt', 'Quốc Tuấn',
+            'Hương Giang', 'Quỳnh Anh',
+            'Vi Anh', 'Hồ Uyên',
+            'Anh Tú', 'Thái Hoàng',
+            'Trà My', 'T.Minh Châu'
+        ];
+        for (var a in hacklist) {
+            console.log("removed " + map.splice(map.indexOf(hacklist[a]), 1) + " from list");
+        }
+    });
+    
+    $(".desk button").on("click", function(){
+        if (!isHacked) {
+            this.innerHTML = map.pop();
+            this.disabled = true;
+            return;
+        } else {
+            var thisTable = $(this).parent();
+            if (thisTable.hasClass("thinh_khanhlinh")) {
+                console.log("thinh_khanhlinh table clicked!");
+                if (this == thisTable.children(":first")[0]) {
+                    this.innerHTML = 'Thịnh Trần';
+                } else {
+                    this.innerHTML = 'Khánh Linh';
+                }
+            } else if (thisTable.hasClass("hoangviet_quoctuan")) {
+                console.log("hoangviet_quoctuan table clicked!");
+                if (this == thisTable.children(":first")[0]) {
+                    this.innerHTML = 'Hoàng Việt';
+                } else {
+                    this.innerHTML = 'Quốc Tuấn';
+                }
+            } else if (thisTable.hasClass("huonggiang_quynhanh")) {
+                console.log("huonggiang_quynhanh table clicked!");
+                if (this == thisTable.children(":first")[0]) {
+                    this.innerHTML = 'Hương Giang';
+                } else {
+                    this.innerHTML = 'Quỳnh Anh';
+                }
+            } else if (thisTable.hasClass("vianh_huongvy")) {
+                console.log("vianh_huongvy table clicked!");
+                if (this == thisTable.children(":first")[0]) {
+                    this.innerHTML = 'Vi Anh';
+                } else {
+                    this.innerHTML = 'Hồ Uyên';
+                }
+            } else if (thisTable.hasClass("anhtu_thaihoang")) {
+                console.log("anhtu_thaihoang table clicked!");
+                if (this == thisTable.children(":first")[0]) {
+                    this.innerHTML = 'Anh Tú';
+                } else {
+                    this.innerHTML = 'Thái Hoàng';
+                }
+            } else if (thisTable.hasClass("tramy_minhchau")) {
+                console.log("tramy_minhchau table clicked!");
+                if (this == thisTable.children(":first")[0]) {
+                    this.innerHTML = 'Trà My';
+                } else {
+                    this.innerHTML = 'T.Minh Châu';
+                }
+            } else {
+                this.innerHTML = map.pop();
+            }
+            this.disabled = true;
+            return;
+        }
+    });
+});
+    </script>
+</body>
+</html>
